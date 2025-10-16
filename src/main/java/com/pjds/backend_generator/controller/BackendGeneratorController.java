@@ -185,14 +185,6 @@ public class BackendGeneratorController {
             replacePlaceholders(tempDir.toString(), req);
 
             // 5. Determine safe destination path
-//            String savePath = req.getSavePath();
-//            if (savePath == null || savePath.isEmpty()) {
-//                savePath = System.getProperty("java.io.tmpdir"); // Use /tmp on Linux
-//            }
-//            Path destinationPath = Paths.get(savePath, req.getProjectName());
-//            File destinationDir = destinationPath.toFile();
-
-         // Step 5: Determine safe destination path
             String savePath;
             String os = System.getProperty("os.name").toLowerCase();
             if (os.contains("win")) {
