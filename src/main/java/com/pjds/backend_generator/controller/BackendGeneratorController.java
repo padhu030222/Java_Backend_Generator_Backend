@@ -208,7 +208,6 @@ public class BackendGeneratorController {
             Path destinationPath = Paths.get(savePath, req.getProjectName());
             Files.createDirectories(destinationPath); // ensure folder exists
             File destinationDir = destinationPath.toFile();
-
             
             // 6. Copy generated project to destination
             FileUtils.copyDirectory(tempDir.toFile(), destinationDir);
