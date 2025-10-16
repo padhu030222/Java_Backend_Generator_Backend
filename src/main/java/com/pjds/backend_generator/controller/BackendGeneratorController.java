@@ -185,11 +185,27 @@ public class BackendGeneratorController {
             replacePlaceholders(tempDir.toString(), req);
 
             // 5. Determine safe destination path
-            String savePath = req.getSavePath();
-            if (savePath == null || savePath.isEmpty()) {
-                savePath = System.getProperty("java.io.tmpdir"); // Use /tmp on Linux
+            // String savePath = req.getSavePath();
+            // if (savePath == null || savePath.isEmpty()) {
+            //     savePath = System.getProperty("java.io.tmpdir"); // Use /tmp on Linux
+            // }
+            // Path destinationPath = Paths.get(savePath, req.getProjectName());
+            // File destinationDir = destinationPath.toFile();
+
+            String savePath;
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("win")) {
+                // Running locally on Windows → use client-provided path or default
+                savePath = req.getSavePath();
+                if (savePath == null || savePath.isEmpty()) {
+                    savePath = System.getProperty("user.home") + File.separator + "Test Project Backend";
+                }
+            } else {
+                // Running on Linux (Render) → ignore client path, use /tmp
+                savePath = "/tmp/generated-projects";
             }
             Path destinationPath = Paths.get(savePath, req.getProjectName());
+            Files.createDirectories(destinationPath); // ensure folder exists
             File destinationDir = destinationPath.toFile();
 
             // 6. Copy generated project to destination
